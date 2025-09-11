@@ -14,5 +14,5 @@ export function getASGAvailabilityZonesCount(stage: string): number {
 }
 
 export function getServiceAvailabilityZones(stage: string, region: string): string[] {
-  return ['a', 'b', 'c', 'd', 'e', 'f'].map((az) => region + az);
+  return getASGAvailabilityZones(stage, region);
 }

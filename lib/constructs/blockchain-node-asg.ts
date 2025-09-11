@@ -13,6 +13,7 @@ import { Construct } from 'constructs';
 import {
   BlockDeviceVolume,
   InstanceType,
+  InstanceArchitecture,
   IVpc,
   LaunchTemplate,
   SecurityGroup,
@@ -88,7 +89,11 @@ export class BlockchainNodeASG extends Construct {
       securityGroup: props.securityGroup,
       launchTemplateName: `${props.resourcePrefix}-launch-template`,
       instanceType: props.blockchainNodeProps.instanceType,
-      machineImage: EcsOptimizedImage.amazonLinux2(AmiHardwareType.ARM),
+      machineImage: EcsOptimizedImage.amazonLinux2(
+        props.blockchainNodeProps.instanceType.architecture === InstanceArchitecture.ARM_64
+          ? AmiHardwareType.ARM
+          : AmiHardwareType.STANDARD,
+      ),
       requireImdsv2: true,
       role: props.blockchainNodeProps.defaultInstanceRole,
       userData: props.userData,
