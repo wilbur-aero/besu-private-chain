@@ -174,12 +174,24 @@ Now, you will go to VPC endpoints in the console, and create a VPC endpoint in t
 the private blockchain from. 
 
 1. Navigate to the VPC Service in the AWS Management Console. In the left sidebar, click on `Endpoints`, and select `Create endpoint`. 
-2. Below `Type`, choose "Endpoint services that use NLBs and GWLBs"
-3. Under `Service settings`, paste the copied `Service name` and click on "Verify service". 
-4. Select the VPC from which you want to access the deployed Besu network.
-5. In the "Subnets" section, choose the specific subnets within your VPC that require access to the blockchain. 
-5. Under "Security groups", select a security group to control network access to the endpoint. (If you do not specify a security group, the default security group for the VPC is automatically associated.)
-6. Select `Create Endpoint`.  
+2. Enter a Name tag for the endpoint (e.g., `Besu-RPC`).
+3. Below `Type`, choose "Endpoint services that use NLBs and GWLBs"
+4. Under `Service settings`, paste the copied `Service name` and click on "Verify service". 
+5. Select the VPC from which you want to access the deployed Besu network.
+6. In the "Subnets" section, choose the specific subnets within your VPC that require access to the blockchain. 
+7. Under "Security groups", select a security group to control network access to the endpoint. (If you do not specify a security group, the default security group for the VPC is automatically associated.)
+8. Select `Create Endpoint`.  
+
+### Security Group Configuration
+
+The security group attached to the VPC endpoint must allow inbound traffic on port 80 (HTTP) from your client resources. For access within the same VPC, create a security group with the following minimal inbound rule:
+
+- Type: HTTP
+- Protocol: TCP
+- Port: 80
+- Source: VPC CIDR (e.g., `10.0.0.0/16`)
+
+Alternatively, if using the default VPC security group, ensure it allows inbound traffic from itself (self-referencing rule), which permits communication between resources in the same security group.  
 
 
 * *Note, that if the AWS account from which you would like to send RPC requests to the blockchain is not the same account as the one that the private chain has been deployed to, there will be an additional [allowlisting permissions step](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html#add-remove-permissions) that you need to take on the VPC endpoint service before creation of the VPC endpoint can succeed.*

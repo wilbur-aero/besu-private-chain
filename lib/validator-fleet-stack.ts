@@ -40,7 +40,7 @@ import { CfnListener, Protocol, Protocol as ELBProtocol, SslPolicy } from 'aws-c
 import { Rule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { Key } from 'aws-cdk-lib/aws-kms';
-import { App, aws_ec2, CfnOutput, Duration, RemovalPolicy, Stack, StackProps, Environment } from 'aws-cdk-lib';
+import { App, aws_ec2, CfnOutput, Duration, RemovalPolicy, Stack, StackProps, Environment, Tags } from 'aws-cdk-lib';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { ARecord, PrivateHostedZone, RecordTarget, VpcEndpointServiceDomainName } from 'aws-cdk-lib/aws-route53';
 import { BlockPublicAccess, Bucket, BucketEncryption, ObjectOwnership } from 'aws-cdk-lib/aws-s3';
@@ -661,6 +661,7 @@ export class ValidatorFleetInfrastructure extends Stack {
       acceptanceRequired: false,
       allowedPrincipals: allowedPrincipals,
     });
+    Tags.of(vpcEndpointService).add('Name', 'BesuPrivateChain');
 
 
 
